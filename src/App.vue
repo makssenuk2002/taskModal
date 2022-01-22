@@ -1,33 +1,28 @@
 <template>
   <div id="app">
-    <button class="btn btn--primary mx-auto" @click="$refs.modalName.openModal()">Open modal</button>
-    <modal ref="modalName"
-      :TITLE="TITLE"
-      :BODY="BODY"
-      :SUCCESS_BTN_TEXT="SUCCESS_BTN_TEXT"
-      :CANCEL_BTN_TEXT="CANCEL_BTN_TEXT"
-      :BACKDROP_CLOSE="true"
-    >
-    </modal>
+    <component :is="layout">
+      <router-view/>
+    </component>
   </div>
 </template>
 
 <script>
-import Modal from "./components/Modal";
-
+import EmptyLayout from '@/layouts/EmptyLayout'
+import MainLayout from '@/layouts/MainLayout'
 export default {
-  name: "App",
+  computed: {
+    layout() {
+      return (this.$route.meta.layout || 'empty') + '-layout'
+    }
+  },
   components: {
-    Modal
-  },
-  data() {
-    return {
-      TITLE:'TITLE',
-      BODY:'BODY',
-      SUCCESS_BTN_TEXT:'Save',
-      CANCEL_BTN_TEXT:'Cancel',
-    };
-  },
-};
+    EmptyLayout, MainLayout
+  }
+}
 </script>
 
+
+<style lang="scss">
+@import '~materialize-css/dist/css/materialize.min.css';
+@import 'assets/index.css';
+</style>
